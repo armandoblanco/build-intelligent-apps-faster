@@ -883,44 +883,20 @@ Abre el navegador en `http://localhost:5173`
 - ✅ Crear Docker Compose para desarrollo local
 - ✅ Verificar que los contenedores funcionan correctamente
 
-### Paso 4.1: Dockerfile del backend
+### Paso 4.1: Containerizar el backend
 
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo src/backend/Dockerfile con:
-
-1. Imagen base de Python (slim)
-2. Directorio de trabajo: /app
-3. Copiar requirements.txt e instalar dependencias
-4. Copiar código fuente
-5. Exponer puerto 8000
-6. Comando: uvicorn app.main:app --host 0.0.0.0 --port 8000
-7. Crear usuario no-root por seguridad
-8. Archivo .dockerignore para excluir venv, __pycache__, .env, etc.
+Containeriza mi aplicación backend en src/backend. Usa una imagen slim de Python, asegúrate de instalar las dependencias y expón el puerto 8000. Incluye un .dockerignore adecuado.
 ```
 
-### Paso 4.2: Dockerfile del frontend
+### Paso 4.2: Containerizar el frontend
 
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo src/frontend/Dockerfile con multi-stage build:
-
-1. Stage 1 - Build:
-   - Imagen base de Node.js (Alpine)
-   - Instalar dependencias con npm ci
-   - Construir la aplicación con npm run build
-
-2. Stage 2 - Producción:
-   - Imagen de nginx (Alpine)
-   - Copiar el build al directorio de nginx
-   - Copiar configuración de nginx personalizada para SPA (redirigir rutas a index.html)
-   - Exponer puerto 80
-
-3. Crear archivo src/frontend/nginx.conf para servir la SPA correctamente
-
-4. Crear archivo src/frontend/.dockerignore
+Containeriza mi aplicación frontend en src/frontend. Usa multi-stage build: primero compila con Node.js y luego sirve con nginx en puerto 80. Incluye la configuración de nginx para SPA y un .dockerignore.
 ```
 
 ### Paso 4.3: Docker Compose
@@ -928,21 +904,7 @@ Crea el archivo src/frontend/Dockerfile con multi-stage build:
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo docker-compose.yml en la raíz del proyecto con:
-
-1. Servicio "backend":
-   - Build desde ./src/backend
-   - Puerto 8000:8000
-   - Variables de entorno desde src/backend/.env
-   - Healthcheck en /api/health
-
-2. Servicio "frontend":
-   - Build desde ./src/frontend
-   - Puerto 3000:80
-   - Depende de: backend
-   - Variable de entorno para API URL
-
-3. Red compartida entre servicios
+Crea un docker-compose.yml que levante el backend (puerto 8000) y el frontend (puerto 3000) juntos. El frontend depende del backend. Usa las variables de entorno del archivo .env del backend.
 ```
 
 ### Paso 4.4: Construir y probar
