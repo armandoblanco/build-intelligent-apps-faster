@@ -260,34 +260,7 @@ Crea el archivo .github/copilot-instructions.md con instrucciones para que Copil
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea la estructura completa del proyecto monorepo:
-
-1. Estructura general de carpetas:
-   src/
-   ├── backend/               ← API Python (FastAPI)
-   │   ├── app/
-   │   │   ├── main.py
-   │   │   ├── config.py
-   │   │   ├── routers/
-   │   │   ├── models/
-   │   │   └── services/
-   │   ├── requirements.txt
-   │   ├── .env.example
-   │   └── Dockerfile
-   └── frontend/              ← App React (Vite + TypeScript)
-   test/                      ← Pruebas del proyecto
-   docs/                      ← Documentación adicional
-   infra/                     ← Infraestructura como código (Bicep)
-   .github/                   ← Copilot instructions, agents, workflows
-   docker-compose.yml
-
-2. Archivo src/backend/requirements.txt con las dependencias:
-
-3. Archivo src/backend/.env.example con las variables de entorno:
-   - AZURE_OPENAI_ENDPOINT=https://tu-recurso.openai.azure.com/
-   - AZURE_OPENAI_API_KEY=tu-clave-api
-   - AZURE_OPENAI_DEPLOYMENT=gpt-4o
-   - AZURE_OPENAI_API_VERSION=2024-12-01-preview
+Crea la estructura de un proyecto monorepo con backend Python/FastAPI en src/backend y frontend React en src/frontend. Incluye también carpetas para test, docs, infra (Bicep) y .github. Genera el requirements.txt con las dependencias necesarias para FastAPI y Azure OpenAI, y un .env.example con las variables de Azure OpenAI.
 ```
 
 ### Paso 1.3: Implementar configuración y modelos
@@ -295,21 +268,7 @@ Crea la estructura completa del proyecto monorepo:
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Implementa los siguientes archivos del backend:
-
-1. src/backend/app/config.py:
-   - Clase de configuración usando pydantic-settings
-   - Cargar variables desde .env
-   - Variables: AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT, AZURE_OPENAI_API_VERSION
-   - Instancia global de configuración
-
-2. src/backend/app/models/schemas.py con modelos Pydantic para:
-   - FinancialProduct: id, name, type (cuenta/tarjeta/prestamo/inversion), description, interest_rate, monthly_fee, requirements (lista de strings)
-   - ChatMessage: role (user/assistant/system), content
-   - ChatRequest: message (str), history (lista opcional de ChatMessage)
-   - ChatResponse: response (str), tokens_used (int opcional)
-   - HealthResponse: status, version, service
-
+Implementa la configuración del backend usando pydantic-settings para cargar las variables de Azure OpenAI desde el .env. Crea también los modelos Pydantic necesarios para: productos financieros, mensajes de chat (request/response) y health check.
 ```
 
 ### Paso 1.4: Implementar endpoint de salud
@@ -317,13 +276,7 @@ Implementa los siguientes archivos del backend:
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo src/backend/app/routers/health.py con:
-
-1. Router de FastAPI con prefix "/api/health" y tag "Salud"
-2. GET /api/health - Retorna estado del servicio
-   - Respuesta: { "status": "saludable", "version": "1.0.0", "service": "Contoso Financial Services API" }
-3. GET /api/health/ready - Verifica que el servicio esté listo
-   - Incluye verificación básica del entorno (variables de configuración cargadas)
+Crea un endpoint de health check en /api/health que retorne el estado del servicio de Contoso Financial Services. Incluye un endpoint /api/health/ready que verifique que las variables de entorno estén configuradas.
 ```
 
 ### Paso 1.5: Implementar endpoint de productos financieros
@@ -331,10 +284,7 @@ Crea el archivo src/backend/app/routers/health.py con:
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo src/backend/app/routers/products.py con:
-
-1. Router de FastAPI con prefix "/api/products" y tag "Productos Financieros"
-
+Crea un endpoint en /api/products con datos de ejemplo hardcodeados de al menos 6 productos de Contoso (cuentas de ahorro, tarjetas de crédito, préstamos e inversiones con sus tasas y comisiones). Incluye un GET para listar todos con filtro por tipo y un GET por ID.
 2. Datos de ejemplo hardcodeados con al menos 6 productos de Contoso:
    - Cuenta Contoso Plus (cuenta de ahorro, 4.5% anual)
    - Cuenta Contoso Empresarial (cuenta corriente empresarial)
@@ -342,11 +292,6 @@ Crea el archivo src/backend/app/routers/products.py con:
    - Tarjeta Contoso Platinum (tarjeta premium, beneficios viajero)
    - Préstamo Contoso Personal (préstamo personal, tasa 12.5%)
    - Inversión Contoso Crecimiento (fondo de inversión, rendimiento 8.2%)
-
-3. Endpoints:
-   - GET /api/products - Lista todos los productos (con filtro opcional por tipo)
-   - GET /api/products/{product_id} - Obtiene un producto por ID
-
 ```
 
 ### Paso 1.6: Implementar el archivo principal
@@ -354,24 +299,7 @@ Crea el archivo src/backend/app/routers/products.py con:
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo src/backend/app/main.py:
-
-1. Aplicación FastAPI con:
-   - Título: "Contoso Financial Services API"
-   - Descripción: "API REST para el agente inteligente de servicios financieros de Contoso"
-   - Versión: "1.0.0"
-
-2. Configuración CORS para desarrollo:
-   - Permitir orígenes: ["http://localhost:5173", "http://localhost:3000"]
-   - Permitir métodos: todos
-   - Permitir headers: todos
-
-3. Incluir routers:
-   - health
-   - products
-   - chat (lo crearemos después)
-
-4. Evento de startup que imprima mensaje de bienvenida
+Crea el archivo principal de la aplicación FastAPI para Contoso Financial Services. Configura CORS para desarrollo local (puertos 5173 y 3000) y registra los routers de health y products que acabamos de crear.
 ```
 
 ### Paso 1.7: Ejecutar y probar la API
@@ -740,24 +668,7 @@ npm install axios
 🤖 **PROMPT con Agente:**
 
 ```
-@contoso-frontend Crea el archivo src/frontend/src/styles/contoso.css con los estilos principales:
-
-1. Variables CSS con la paleta de colores corporativa Contoso
-2. Reset CSS básico
-3. Tipografía base con Segoe UI
-4. Estilos para el layout principal:
-   - Header corporativo con logo Contoso y navegación
-   - Área de contenido principal
-   - Footer con información de Contoso
-5. Estilos para el componente de chat:
-   - Contenedor del chat con altura fija y scroll
-   - Burbujas de mensajes (usuario vs asistente)
-   - Input de mensaje con botón de enviar
-   - Indicador de escritura animado
-   - Estado vacío (sin mensajes)
-6. Estilos para tarjetas de productos financieros
-7. Clases utilitarias para espaciado y layout
-8. Estilos responsive (mobile, tablet, desktop)
+@contoso-frontend Crea los estilos CSS corporativos de Contoso en src/frontend/src/styles/contoso.css. Usa la paleta de colores definida en el agente. Incluye estilos para el layout general, el componente de chat (burbujas de mensajes, input, indicador de escritura) y diseño responsive.
 ```
 
 ### Paso 3.4: Crear componentes del chat
@@ -765,37 +676,7 @@ npm install axios
 🤖 **PROMPT con Agente:**
 
 ```
-@contoso-frontend Crea los siguientes componentes React en src/frontend/src/components/:
-
-1. **Header.tsx**: Header corporativo de Contoso Financial Services
-   - Logo (texto estilizado "CONTOSO")  
-   - Título: "Asistente Virtual"
-   - Fondo azul corporativo (#002050)
-
-2. **MessageBubble.tsx**: Componente para cada mensaje en el chat
-   - Props: content (string), isUser (boolean), timestamp (string)
-   - Estilo diferente para usuario (azul, derecha) vs asistente (gris, izquierda)
-   - Muestra "Tú" o "ContosoBot" como nombre del remitente
-   - Formato de hora
-
-3. **ChatInput.tsx**: Input para escribir mensajes
-   - Campo de texto con placeholder "Escribe tu consulta financiera..."
-   - Botón de enviar (ícono o texto "Enviar")
-   - Deshabilitar mientras se espera respuesta
-   - Enviar con Enter
-
-4. **TypingIndicator.tsx**: Animación de "ContosoBot está escribiendo..."
-   - Tres puntos animados
-   - Se muestra solo mientras se espera respuesta
-
-5. **ChatPanel.tsx**: Componente principal que integra todo el chat
-   - Mantiene el estado del historial de mensajes
-   - Llama a la API backend /api/chat
-   - Auto-scroll al último mensaje
-   - Estado de carga, error y vacío
-   - Botón para limpiar conversación
-
-Todos los componentes con TypeScript.
+@contoso-frontend Crea los componentes React del chat en src/frontend/src/components/: un header corporativo, burbujas de mensaje (diferenciando usuario vs ContosoBot), input de texto con envío por Enter, indicador de escritura animado, y un panel principal que integre todo con estado, llamadas a la API y auto-scroll. Todo con TypeScript.
 ```
 
 ### Paso 3.5: Crear servicio HTTP para la API
@@ -803,22 +684,7 @@ Todos los componentes con TypeScript.
 🤖 **PROMPT con Agente:**
 
 ```
-@contoso-frontend Crea el archivo src/frontend/src/services/api.ts con:
-
-1. Configuración de axios con base URL: http://localhost:8000
-
-2. Interfaces TypeScript:
-   - ChatMessage { role: string; content: string }
-   - ChatRequest { message: string; history?: ChatMessage[] }
-   - ChatResponse { response: string; tokens_used?: number }
-   - FinancialProduct { id, name, type, description, interest_rate, monthly_fee, requirements }
-
-3. Funciones del servicio:
-   - sendMessage(request: ChatRequest): Promise<ChatResponse>
-   - getProducts(type?: string): Promise<FinancialProduct[]>
-   - checkHealth(): Promise<boolean>
-
-4. Manejo de errores con mensajes amigables
+@contoso-frontend Crea el servicio HTTP en src/frontend/src/services/api.ts con axios para conectar con el backend en http://localhost:8000. Incluye las interfaces TypeScript para los tipos de datos (chat, productos, health) y las funciones para enviar mensajes, obtener productos y verificar salud de la API.
 ```
 
 ### Paso 3.6: Integrar todo en App.tsx
@@ -1070,11 +936,17 @@ Usando Azure CLI ejecuta en la terminal:
 
 > 💡 **NOTA:** Antes de crear el pipeline, necesitas configurar los secretos en el repositorio de GitHub.
 
-📍 **En GitHub → Settings → Secrets and variables → Actions:**
+🤖 **PROMPT en Modo Agent:**
+
+```
+Usando Azure CLI, crea un Service Principal llamado "sp-contoso-github-actions" con rol contributor sobre el grupo de recursos rg-contoso-financial. Muéstrame el JSON resultante y dime qué secretos necesito configurar en GitHub Actions.
+```
+
+📍 **En GitHub → Settings → Secrets and variables → Actions**, agrega los secretos que Copilot te indique:
 
 | Secreto | Valor |
 |---|---|
-| `AZURE_CREDENTIALS` | JSON del Service Principal (ver comando abajo) |
+| `AZURE_CREDENTIALS` | JSON del Service Principal |
 | `ACR_LOGIN_SERVER` | URL del ACR (ej: contosofinancial.azurecr.io) |
 | `ACR_USERNAME` | Username del ACR |
 | `ACR_PASSWORD` | Password del ACR |
@@ -1082,62 +954,12 @@ Usando Azure CLI ejecuta en la terminal:
 | `AZURE_OPENAI_API_KEY` | API Key de Azure OpenAI |
 | `AZURE_OPENAI_DEPLOYMENT` | Nombre del deployment (ej: gpt-4o) |
 
-```bash
-# Crear Service Principal para GitHub Actions
-az ad sp create-for-rbac \
-  --name "sp-contoso-github-actions" \
-  --role contributor \
-  --scopes /subscriptions/TU_SUBSCRIPTION_ID/resourceGroups/rg-contoso-financial \
-  --sdk-auth
-```
-
 ### Paso 6.2: Crear pipeline CI/CD
 
 🤖 **PROMPT en Modo Plan:**
 
 ```
-Crea el archivo .github/workflows/ci-cd.yml con un pipeline completo:
-
-1. **Trigger:**
-   - Push a main y develop
-   - Pull requests a main
-
-2. **Job: test-backend**
-   - Runs-on: ubuntu-latest
-   - Steps:
-     - Checkout código
-     - Setup Python
-     - Instalar dependencias de src/backend
-     - Ejecutar linting con ruff (si disponible)
-     - Ejecutar tests con pytest
-   
-3. **Job: test-frontend**
-   - Runs-on: ubuntu-latest
-   - Steps:
-     - Checkout código
-     - Setup Node.js
-     - Instalar dependencias de src/frontend
-     - Build del frontend (verifica que compila)
-
-4. **Job: build-and-push** (solo en push a main)
-   - Necesita: test-backend, test-frontend
-   - Runs-on: ubuntu-latest
-   - Steps:
-     - Checkout código
-     - Login a Azure Container Registry
-     - Build y push imagen backend desde src/backend con tag: ${{ github.sha }}
-     - Build y push imagen frontend desde src/frontend con tag: ${{ github.sha }}
-
-5. **Job: deploy** (solo en push a main)
-   - Necesita: build-and-push
-   - Environment: produccion
-   - Runs-on: ubuntu-latest
-   - Steps:
-     - Login a Azure con AZURE_CREDENTIALS
-     - Actualizar Container App backend con nueva imagen
-     - Actualizar Container App frontend con nueva imagen
-     - Verificar health del backend desplegado
-     - Comentar en commit con URLs de las apps
+Crea un pipeline CI/CD en .github/workflows/ci-cd.yml que: testee backend (pytest) y frontend (build) en paralelo, construya y suba las imágenes Docker al ACR en push a main, y despliegue a las Container Apps con un environment protegido "produccion" que requiera aprobación. Usa los secretos que ya configuramos en GitHub.
 
 Muéstrame el plan antes de ejecutar.
 ```
