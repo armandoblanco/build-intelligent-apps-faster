@@ -1003,112 +1003,44 @@ Muéstrame el plan antes de ejecutar.
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo infra/main.bicepparam con:
-
-using './main.bicep'
-
-param location = 'eastus2'
-param environmentName = 'contoso-financial'
-param imagenBackendTag = 'latest'
-param imagenFrontendTag = 'latest'
+Crea el archivo infra/main.bicepparam usando los parámetros definidos en main.bicep. Usa location eastus2, environment name contoso-financial, y tag latest para las imágenes.
 ```
 
 ### Paso 5.3: Desplegar infraestructura con Azure CLI
 
-> 💡 **DEMOSTRACIÓN:** Desplegamos la infraestructura usando Azure CLI directamente en la terminal.
+🤖 **PROMPT en Modo Agent:**
 
-```bash
-# 1. Iniciar sesión en Azure
-az login
-
-# 2. Seleccionar suscripción (si tienes varias)
-az account set --subscription "TU_SUSCRIPCION"
-
-# 3. Crear grupo de recursos
-az group create \
-  --name rg-contoso-financial \
-  --location eastus2
-
-# 4. Desplegar infraestructura con Bicep
-az deployment group create \
-  --resource-group rg-contoso-financial \
-  --template-file infra/main.bicep \
-  --parameters infra/main.bicepparam
+```
+Usando Azure CLI ejecuta en la terminal los siguientes pasos:
+1. Inicia sesión en Azure (az login)
+2. Crea el grupo de recursos rg-contoso-financial en eastus2
+3. Despliega la infraestructura usando el template infra/main.bicep con los parámetros de infra/main.bicepparam
 ```
 
 ### Paso 5.4: Subir imágenes a Azure Container Registry
 
-```bash
-# 1. Obtener nombre del ACR del deployment
-ACR_NAME=$(az deployment group show \
-  --resource-group rg-contoso-financial \
-  --name main \
-  --query properties.outputs.acrLoginServer.value -o tsv)
+🤖 **PROMPT en Modo Agent:**
 
-# 2. Login al ACR
-az acr login --name $ACR_NAME
-
-# 3. Construir y etiquetar imágenes
-docker build -t $ACR_NAME/contoso-backend:v1 ./src/backend
-docker build -t $ACR_NAME/contoso-frontend:v1 ./src/frontend
-
-# 4. Subir imágenes al ACR
-docker push $ACR_NAME/contoso-backend:v1
-docker push $ACR_NAME/contoso-frontend:v1
+```
+Usando Azure CLI y Docker, ejecuta en la terminal:
+1. Obtén el nombre del ACR del deployment que acabamos de crear en rg-contoso-financial
+2. Haz login al ACR
+3. Construye y sube las imágenes del backend (./src/backend) y frontend (./src/frontend) al ACR con tag v1
 ```
 
-### Paso 5.5: Configurar secrets de Azure OpenAI en Container Apps
+### Paso 5.5: Configurar secrets y actualizar Container Apps
 
-```bash
-# Obtener nombre de la Container App del backend
-BACKEND_APP=$(az containerapp list \
-  --resource-group rg-contoso-financial \
-  --query "[?contains(name,'backend')].name" -o tsv)
+🤖 **PROMPT en Modo Agent:**
 
-# Configurar secrets
-az containerapp secret set \
-  --name $BACKEND_APP \
-  --resource-group rg-contoso-financial \
-  --secrets \
-    azure-openai-endpoint="TU_ENDPOINT" \
-    azure-openai-key="TU_API_KEY"
 ```
-
-### Paso 5.6: Actualizar Container Apps con las imágenes
-
-```bash
-# Actualizar backend
-az containerapp update \
-  --name $BACKEND_APP \
-  --resource-group rg-contoso-financial \
-  --image $ACR_NAME/contoso-backend:v1
-
-# Obtener y actualizar frontend
-FRONTEND_APP=$(az containerapp list \
-  --resource-group rg-contoso-financial \
-  --query "[?contains(name,'frontend')].name" -o tsv)
-
-az containerapp update \
-  --name $FRONTEND_APP \
-  --resource-group rg-contoso-financial \
-  --image $ACR_NAME/contoso-frontend:v1
+Usando Azure CLI ejecuta en la terminal:
+1. Obtén los nombres de las Container Apps de backend y frontend del grupo rg-contoso-financial
+2. Configura los secrets de Azure OpenAI (endpoint y API key) en la Container App del backend
+3. Actualiza ambas Container Apps para que usen las imágenes v1 que subimos al ACR
+4. Al terminar, muéstrame las URLs públicas de ambas aplicaciones
 ```
 
 ✅ **Verificar:**
-
-```bash
-# Obtener URLs de las aplicaciones
-az containerapp show \
-  --name $BACKEND_APP \
-  --resource-group rg-contoso-financial \
-  --query properties.configuration.ingress.fqdn -o tsv
-
-az containerapp show \
-  --name $FRONTEND_APP \
-  --resource-group rg-contoso-financial \
-  --query properties.configuration.ingress.fqdn -o tsv
-```
-
 - El backend responde en la URL de Azure
 - El frontend carga y se conecta al backend
 - El chat con el agente funciona en producción
