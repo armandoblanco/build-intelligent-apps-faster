@@ -260,7 +260,12 @@ Crea el archivo .github/copilot-instructions.md con instrucciones para que Copil
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea la estructura de un proyecto monorepo con backend Python/FastAPI en src/backend y frontend React en src/frontend. Incluye también carpetas para test, docs, infra (Bicep) y .github. Genera el requirements.txt con las dependencias necesarias para FastAPI y Azure OpenAI, y un .env.example con las variables de Azure OpenAI.
+Crea la estructura de un proyecto monorepo con backend
+Python/FastAPI en src/backend y frontend React en src/frontend.
+Incluye también carpetas para test, docs, infra (Bicep) y .github.
+Genera el requirements.txt con las dependencias necesarias para
+FastAPI y Azure OpenAI, y un .env.example con las variables
+de Azure OpenAI.
 ```
 
 ### Paso 1.3: Implementar configuración y modelos
@@ -268,7 +273,11 @@ Crea la estructura de un proyecto monorepo con backend Python/FastAPI en src/bac
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Implementa la configuración del backend usando pydantic-settings para cargar las variables de Azure OpenAI desde el .env. Crea también los modelos Pydantic necesarios para: productos financieros, mensajes de chat (request/response) y health check.
+Implementa la configuración del backend usando pydantic-settings
+para cargar las variables de Azure OpenAI desde el .env.
+Crea también los modelos Pydantic necesarios para:
+productos financieros, mensajes de chat (request/response)
+y health check.
 ```
 
 ### Paso 1.4: Implementar endpoint de salud
@@ -276,7 +285,10 @@ Implementa la configuración del backend usando pydantic-settings para cargar la
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea un endpoint de health check en /api/health que retorne el estado del servicio de Contoso Financial Services. Incluye un endpoint /api/health/ready que verifique que las variables de entorno estén configuradas.
+Crea un endpoint de health check en /api/health que retorne
+el estado del servicio de Contoso Financial Services.
+Incluye un endpoint /api/health/ready que verifique que
+las variables de entorno estén configuradas.
 ```
 
 ### Paso 1.5: Implementar endpoint de productos financieros
@@ -284,14 +296,20 @@ Crea un endpoint de health check en /api/health que retorne el estado del servic
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea un endpoint en /api/products con datos de ejemplo hardcodeados de al menos 6 productos de Contoso (cuentas de ahorro, tarjetas de crédito, préstamos e inversiones con sus tasas y comisiones). Incluye un GET para listar todos con filtro por tipo y un GET por ID.
-2. Datos de ejemplo hardcodeados con al menos 6 productos de Contoso:
-   - Cuenta Contoso Plus (cuenta de ahorro, 4.5% anual)
-   - Cuenta Contoso Empresarial (cuenta corriente empresarial)
-   - Tarjeta Contoso Gold (tarjeta de crédito, tasa 28.9%)
-   - Tarjeta Contoso Platinum (tarjeta premium, beneficios viajero)
-   - Préstamo Contoso Personal (préstamo personal, tasa 12.5%)
-   - Inversión Contoso Crecimiento (fondo de inversión, rendimiento 8.2%)
+Crea un endpoint en /api/products con datos de ejemplo
+hardcodeados de al menos 6 productos de Contoso
+(cuentas de ahorro, tarjetas de crédito, préstamos
+e inversiones con sus tasas y comisiones).
+Incluye un GET para listar todos con filtro por tipo
+y un GET por ID.
+
+Productos de ejemplo:
+- Cuenta Contoso Plus (cuenta de ahorro, 4.5% anual)
+- Cuenta Contoso Empresarial (cuenta corriente empresarial)
+- Tarjeta Contoso Gold (tarjeta de crédito, tasa 28.9%)
+- Tarjeta Contoso Platinum (tarjeta premium, beneficios viajero)
+- Préstamo Contoso Personal (préstamo personal, tasa 12.5%)
+- Inversión Contoso Crecimiento (fondo de inversión, rendimiento 8.2%)
 ```
 
 ### Paso 1.6: Implementar el archivo principal
@@ -299,7 +317,10 @@ Crea un endpoint en /api/products con datos de ejemplo hardcodeados de al menos 
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo principal de la aplicación FastAPI para Contoso Financial Services. Configura CORS para desarrollo local (puertos 5173 y 3000) y registra los routers de health y products que acabamos de crear.
+Crea el archivo principal de la aplicación FastAPI para
+Contoso Financial Services. Configura CORS para desarrollo
+local (puertos 5173 y 3000) y registra los routers de health
+y products que acabamos de crear.
 ```
 
 ### Paso 1.7: Ejecutar y probar la API
@@ -668,7 +689,12 @@ npm install axios
 🤖 **PROMPT con Agente:**
 
 ```
-@contoso-frontend Crea los estilos CSS corporativos de Contoso en src/frontend/src/styles/contoso.css. Usa la paleta de colores definida en el agente. Incluye estilos para el layout general, el componente de chat (burbujas de mensajes, input, indicador de escritura) y diseño responsive.
+@contoso-frontend Crea los estilos CSS corporativos de Contoso
+en src/frontend/src/styles/contoso.css.
+Usa la paleta de colores definida en el agente.
+Incluye estilos para el layout general, el componente de chat
+(burbujas de mensajes, input, indicador de escritura)
+y diseño responsive.
 ```
 
 ### Paso 3.4: Crear componentes del chat
@@ -676,7 +702,12 @@ npm install axios
 🤖 **PROMPT con Agente:**
 
 ```
-@contoso-frontend Crea los componentes React del chat en src/frontend/src/components/: un header corporativo, burbujas de mensaje (diferenciando usuario vs ContosoBot), input de texto con envío por Enter, indicador de escritura animado, y un panel principal que integre todo con estado, llamadas a la API y auto-scroll. Todo con TypeScript.
+@contoso-frontend Crea los componentes React del chat en
+src/frontend/src/components/: un header corporativo,
+burbujas de mensaje (diferenciando usuario vs ContosoBot),
+input de texto con envío por Enter, indicador de escritura
+animado, y un panel principal que integre todo con estado,
+llamadas a la API y auto-scroll. Todo con TypeScript.
 ```
 
 ### Paso 3.5: Crear servicio HTTP para la API
@@ -684,7 +715,12 @@ npm install axios
 🤖 **PROMPT con Agente:**
 
 ```
-@contoso-frontend Crea el servicio HTTP en src/frontend/src/services/api.ts con axios para conectar con el backend en http://localhost:8000. Incluye las interfaces TypeScript para los tipos de datos (chat, productos, health) y las funciones para enviar mensajes, obtener productos y verificar salud de la API.
+@contoso-frontend Crea el servicio HTTP en
+src/frontend/src/services/api.ts con axios para conectar
+con el backend en http://localhost:8000.
+Incluye las interfaces TypeScript para los tipos de datos
+(chat, productos, health) y las funciones para enviar mensajes,
+obtener productos y verificar salud de la API.
 ```
 
 ### Paso 3.6: Integrar todo en App.tsx
@@ -754,7 +790,10 @@ Abre el navegador en `http://localhost:5173`
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Containeriza mi aplicación backend en src/backend. Usa una imagen slim de Python, asegúrate de instalar las dependencias y expón el puerto 8000. Incluye un .dockerignore adecuado.
+Containeriza mi aplicación backend en src/backend.
+Usa una imagen slim de Python, asegúrate de instalar
+las dependencias y expón el puerto 8000.
+Incluye un .dockerignore adecuado.
 ```
 
 ### Paso 4.2: Containerizar el frontend
@@ -762,7 +801,10 @@ Containeriza mi aplicación backend en src/backend. Usa una imagen slim de Pytho
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Containeriza mi aplicación frontend en src/frontend. Usa multi-stage build: primero compila con Node.js y luego sirve con nginx en puerto 80. Incluye la configuración de nginx para SPA y un .dockerignore.
+Containeriza mi aplicación frontend en src/frontend.
+Usa multi-stage build: primero compila con Node.js
+y luego sirve con nginx en puerto 80.
+Incluye la configuración de nginx para SPA y un .dockerignore.
 ```
 
 ### Paso 4.3: Docker Compose
@@ -770,7 +812,10 @@ Containeriza mi aplicación frontend en src/frontend. Usa multi-stage build: pri
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea un docker-compose.yml que levante el backend (puerto 8000) y el frontend (puerto 3000) juntos. El frontend depende del backend. Usa las variables de entorno del archivo .env del backend.
+Crea un docker-compose.yml que levante el backend (puerto 8000)
+y el frontend (puerto 3000) juntos.
+El frontend depende del backend.
+Usa las variables de entorno del archivo .env del backend.
 ```
 
 ### Paso 4.4: Construir y probar
@@ -869,7 +914,10 @@ Muéstrame el plan antes de ejecutar.
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Crea el archivo infra/main.bicepparam usando los parámetros definidos en main.bicep. Usa location eastus2, environment name contoso-financial, y tag latest para las imágenes.
+Crea el archivo infra/main.bicepparam usando los parámetros
+definidos en main.bicep.
+Usa location eastus2, environment name contoso-financial,
+y tag latest para las imágenes.
 ```
 
 ### Paso 5.3: Desplegar infraestructura con Azure CLI
@@ -880,7 +928,9 @@ Crea el archivo infra/main.bicepparam usando los parámetros definidos en main.b
 Usando Azure CLI ejecuta en la terminal los siguientes pasos:
 1. Inicia sesión en Azure (az login)
 2. Crea el grupo de recursos rg-contoso-financial en eastus2
-3. Despliega la infraestructura usando el template infra/main.bicep con los parámetros de infra/main.bicepparam
+3. Despliega la infraestructura usando el template
+   infra/main.bicep con los parámetros de
+   infra/main.bicepparam
 ```
 
 ### Paso 5.4: Subir imágenes a Azure Container Registry
@@ -889,9 +939,11 @@ Usando Azure CLI ejecuta en la terminal los siguientes pasos:
 
 ```
 Usando Azure CLI y Docker, ejecuta en la terminal:
-1. Obtén el nombre del ACR del deployment que acabamos de crear en rg-contoso-financial
+1. Obtén el nombre del ACR del deployment que acabamos
+   de crear en rg-contoso-financial
 2. Haz login al ACR
-3. Construye y sube las imágenes del backend (./src/backend) y frontend (./src/frontend) al ACR con tag v1
+3. Construye y sube las imágenes del backend (./src/backend)
+   y frontend (./src/frontend) al ACR con tag v1
 ```
 
 ### Paso 5.5: Configurar secrets y actualizar Container Apps
@@ -900,9 +952,12 @@ Usando Azure CLI y Docker, ejecuta en la terminal:
 
 ```
 Usando Azure CLI ejecuta en la terminal:
-1. Obtén los nombres de las Container Apps de backend y frontend del grupo rg-contoso-financial
-2. Configura los secrets de Azure OpenAI (endpoint y API key) en la Container App del backend
-3. Actualiza ambas Container Apps para que usen las imágenes v1 que subimos al ACR
+1. Obtén los nombres de las Container Apps de backend
+   y frontend del grupo rg-contoso-financial
+2. Configura los secrets de Azure OpenAI (endpoint y API key)
+   en la Container App del backend
+3. Actualiza ambas Container Apps para que usen
+   las imágenes v1 que subimos al ACR
 4. Al terminar, muéstrame las URLs públicas de ambas aplicaciones
 ```
 
@@ -939,7 +994,11 @@ Usando Azure CLI ejecuta en la terminal:
 🤖 **PROMPT en Modo Agent:**
 
 ```
-Usando Azure CLI, crea un Service Principal llamado "sp-contoso-github-actions" con rol contributor sobre el grupo de recursos rg-contoso-financial. Muéstrame el JSON resultante y dime qué secretos necesito configurar en GitHub Actions.
+Usando Azure CLI, crea un Service Principal llamado
+"sp-contoso-github-actions" con rol contributor sobre el
+grupo de recursos rg-contoso-financial.
+Muéstrame el JSON resultante y dime qué secretos necesito
+configurar en GitHub Actions.
 ```
 
 📍 **En GitHub → Settings → Secrets and variables → Actions**, agrega los secretos que Copilot te indique:
@@ -959,7 +1018,12 @@ Usando Azure CLI, crea un Service Principal llamado "sp-contoso-github-actions" 
 🤖 **PROMPT en Modo Plan:**
 
 ```
-Crea un pipeline CI/CD en .github/workflows/ci-cd.yml que: testee backend (pytest) y frontend (build) en paralelo, construya y suba las imágenes Docker al ACR en push a main, y despliegue a las Container Apps con un environment protegido "produccion" que requiera aprobación. Usa los secretos que ya configuramos en GitHub.
+Crea un pipeline CI/CD en .github/workflows/ci-cd.yml que:
+testee backend (pytest) y frontend (build) en paralelo,
+construya y suba las imágenes Docker al ACR en push a main,
+y despliegue a las Container Apps con un environment protegido
+"produccion" que requiera aprobación.
+Usa los secretos que ya configuramos en GitHub.
 
 Muéstrame el plan antes de ejecutar.
 ```
